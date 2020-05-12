@@ -5,24 +5,35 @@ import PackageDescription
 
 let package = Package(
     name: "Feedback",
+    platforms: [
+        .macOS(.v10_15),
+        .iOS(.v13),
+        .tvOS(.v13),
+        .watchOS(.v6)
+    ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
             name: "Feedback",
             targets: ["Feedback"]),
+        .library(
+            name: "FeedbackUI",
+            targets: ["FeedbackUI"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
+        .package(
+            name: "CasePaths",
+            url: "https://github.com/pointfreeco/swift-case-paths.git",
+            .exact("0.1.0")
+        )
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
-        .target(
-            name: "Feedback",
-            dependencies: []),
-        .testTarget(
-            name: "FeedbackTests",
-            dependencies: ["Feedback"]),
+        .target(name: "Feedback", dependencies: ["CasePaths"]),
+        .target(name: "FeedbackUI", dependencies: ["Feedback"]),
+        .testTarget(name: "FeedbackTests", dependencies: ["Feedback"]),
     ]
 )
